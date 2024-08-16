@@ -124,6 +124,13 @@ def unpackArchive(archive_path, target_path):
     click.echo(" success!")
 
 
+def format_gpu_arg(os, gpu):
+    if os == "Windows":
+        return gpu["id"] - 1
+    if os == "Linux":
+        return gpu["businfo"].replace("@", "-")
+
+
 def benchmark(ffmpeg_cmd: str, debug_flag: bool, prog_bar) -> tuple:
     runs = []
     total_workers = 1
@@ -490,8 +497,10 @@ def cli(
                             click.echo(f"> > > Current Device: {command['type']}")
                         arguments = command["args"]
                         arguments = arguments.format(
-                            video_file=current_file, gpu=gpu_idx
+                            video_file=current_file,
+                            gpu=format_gpu_arg(hwi.platform.system(), gpus[gpu_idx]),
                         )
+                        click.echo(arguments)
                         test_cmd = f"{ffmpeg_binary} {arguments}"
 
                         valid, runs, result = benchmark(test_cmd, debug_flag, prog_bar)
