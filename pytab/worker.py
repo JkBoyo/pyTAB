@@ -43,7 +43,9 @@ def run_ffmpeg(pid: int, ffmpeg_cmd: list) -> tuple:  # Process ID,
 
         if retcode > 0:
             # click.echo(f"ERROR: {ffmpeg_stderr}")    <- Silencing Output
-            failure_reason = "generic_ffmpeg_failure"  # <-- HELP WANTED!
+            failure_reason = (
+                f"generic_ffmpeg_failure \nERROR: {ffmpeg_stderr}"  # <-- HELP WANTED!
+            )
 
     except subprocess.TimeoutExpired:
         ffmpeg_stderr = 1
