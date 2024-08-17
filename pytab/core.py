@@ -124,10 +124,10 @@ def unpackArchive(archive_path, target_path):
     click.echo(" success!")
 
 
-def format_gpu_arg(os, gpu):
-    if os == "Windows":
+def format_gpu_arg(system_os, gpu):
+    if system_os == "Windows":
         return gpu["id"] - 1
-    if os == "Linux":
+    if system_os == "Linux":
         return gpu["businfo"].replace("@", "-")
 
 
